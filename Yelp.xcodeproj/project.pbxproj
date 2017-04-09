@@ -20,6 +20,13 @@
 		FC52EEA21E97379E004065C4 /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEA11E97379E004065C4 /* BusinessTableViewCell.swift */; };
 		FC52EEA41E9895A1004065C4 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEA31E9895A1004065C4 /* SwitchTableViewCell.swift */; };
 		FC52EEA61E989FE0004065C4 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEA51E989FE0004065C4 /* FiltersViewController.swift */; };
+		FC52EEA81E98B5DA004065C4 /* YelpCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEA71E98B5DA004065C4 /* YelpCategories.swift */; };
+		FC52EEAA1E98B66B004065C4 /* FiltersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEA91E98B66B004065C4 /* FiltersDataSource.swift */; };
+		FC52EEAC1E98B7A9004065C4 /* ParentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEAB1E98B7A9004065C4 /* ParentCell.swift */; };
+		FC52EEB01E9980A4004065C4 /* DistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEAE1E9980A4004065C4 /* DistanceTableViewCell.swift */; };
+		FC52EEB11E9980A4004065C4 /* DistanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC52EEAF1E9980A4004065C4 /* DistanceTableViewCell.xib */; };
+		FC52EEB41E9A06B1004065C4 /* DistanceHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52EEB21E9A06B1004065C4 /* DistanceHeaderTableViewCell.swift */; };
+		FC52EEB51E9A06B1004065C4 /* DistanceHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC52EEB31E9A06B1004065C4 /* DistanceHeaderTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +62,13 @@
 		FC52EEA11E97379E004065C4 /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
 		FC52EEA31E9895A1004065C4 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		FC52EEA51E989FE0004065C4 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		FC52EEA71E98B5DA004065C4 /* YelpCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpCategories.swift; sourceTree = "<group>"; };
+		FC52EEA91E98B66B004065C4 /* FiltersDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersDataSource.swift; sourceTree = "<group>"; };
+		FC52EEAB1E98B7A9004065C4 /* ParentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentCell.swift; sourceTree = "<group>"; };
+		FC52EEAE1E9980A4004065C4 /* DistanceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceTableViewCell.swift; sourceTree = "<group>"; };
+		FC52EEAF1E9980A4004065C4 /* DistanceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DistanceTableViewCell.xib; sourceTree = "<group>"; };
+		FC52EEB21E9A06B1004065C4 /* DistanceHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		FC52EEB31E9A06B1004065C4 /* DistanceHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DistanceHeaderTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +117,9 @@
 				22AAAA9A1AEA0AA100A544AF /* Models */,
 				222D8A7A19CCFAAA00D2DB53 /* API */,
 				22AAAA9D1AEA1EC600A544AF /* View Controllers */,
+				FC52EEAD1E998048004065C4 /* Views */,
 				222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */,
 				222D8A5E19CCF9F900D2DB53 /* Main.storyboard */,
-				FC52EEA11E97379E004065C4 /* BusinessTableViewCell.swift */,
-				FC52EEA31E9895A1004065C4 /* SwitchTableViewCell.swift */,
 				222D8A6119CCF9F900D2DB53 /* Images.xcassets */,
 				222D8A6319CCF9F900D2DB53 /* LaunchScreen.xib */,
 				222D8A5819CCF9F900D2DB53 /* Supporting Files */,
@@ -151,6 +164,9 @@
 			isa = PBXGroup;
 			children = (
 				22AAAA981AEA0A9700A544AF /* Business.swift */,
+				FC52EEA71E98B5DA004065C4 /* YelpCategories.swift */,
+				FC52EEA91E98B66B004065C4 /* FiltersDataSource.swift */,
+				FC52EEAB1E98B7A9004065C4 /* ParentCell.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -183,6 +199,19 @@
 				9B128C050DE78660DE2A8E75 /* Pods-YelpTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		FC52EEAD1E998048004065C4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FC52EEA11E97379E004065C4 /* BusinessTableViewCell.swift */,
+				FC52EEA31E9895A1004065C4 /* SwitchTableViewCell.swift */,
+				FC52EEAE1E9980A4004065C4 /* DistanceTableViewCell.swift */,
+				FC52EEAF1E9980A4004065C4 /* DistanceTableViewCell.xib */,
+				FC52EEB21E9A06B1004065C4 /* DistanceHeaderTableViewCell.swift */,
+				FC52EEB31E9A06B1004065C4 /* DistanceHeaderTableViewCell.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,8 +304,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC52EEB11E9980A4004065C4 /* DistanceTableViewCell.xib in Resources */,
 				222D8A6019CCF9F900D2DB53 /* Main.storyboard in Resources */,
 				222D8A6519CCF9F900D2DB53 /* LaunchScreen.xib in Resources */,
+				FC52EEB51E9A06B1004065C4 /* DistanceHeaderTableViewCell.xib in Resources */,
 				222D8A6219CCF9F900D2DB53 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,7 +349,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4AE591C62421400E9E10FDCC /* [CP] Embed Pods Frameworks */ = {
@@ -378,7 +409,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -388,13 +419,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC52EEAC1E98B7A9004065C4 /* ParentCell.swift in Sources */,
+				FC52EEB41E9A06B1004065C4 /* DistanceHeaderTableViewCell.swift in Sources */,
 				FC52EEA21E97379E004065C4 /* BusinessTableViewCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				FC52EEA61E989FE0004065C4 /* FiltersViewController.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
+				FC52EEB01E9980A4004065C4 /* DistanceTableViewCell.swift in Sources */,
+				FC52EEAA1E98B66B004065C4 /* FiltersDataSource.swift in Sources */,
 				FC52EEA41E9895A1004065C4 /* SwitchTableViewCell.swift in Sources */,
+				FC52EEA81E98B5DA004065C4 /* YelpCategories.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
