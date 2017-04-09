@@ -17,6 +17,7 @@ enum Section: Int {
 class FiltersDataSource {
     var categories: [[String: String]]!
     var distance: ParentCell!
+    var sortBy: ParentCell!
     var items = [ParentCell]()
     var lastExpandedIndexPath: IndexPath?
     
@@ -36,20 +37,36 @@ class FiltersDataSource {
         distance.actionAt = {
             (indexPath: IndexPath, tableView: UITableView) -> Void in
             // parentCell not selected
-            
             // update the header label
             let cell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section)) as! DistanceHeaderTableViewCell
             cell.headerLabel.text = self.items[indexPath.section].children[indexPath.row - 1]
             // collapse the row
             self.collapseItemAt(indexPath: indexPath, parentCell: &self.items[indexPath.section], tableView: tableView)
         }
-            
+        
+        sortBy = ParentCell(state: .collapsed,
+                            children: [
+                                "Best mached",
+                                "Distance",
+                                "Highest Rated"
+            ],
+                            selected: 0,
+                            parentTableViewCellIdentifier: "DistanceHeaderTableViewCell",
+                            childTableViewCellIdentifier: "DistanceTableViewCell")
+        sortBy.actionAt = {
+            (indexPath: IndexPath, tableView: UITableView) -> Void in
+            let cell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section)) as! DistanceHeaderTableViewCell
+            cell.headerLabel.text = self.items[indexPath.section].children[indexPath.row - 1]
+            // collapse the row
+            self.collapseItemAt(indexPath: indexPath, parentCell: &self.items[indexPath.section], tableView: tableView)
+        }
         
         items.append(distance)
+        items.append(sortBy)
     }
     
     func numberOfSections() -> Int {
-        return 1
+        return 2
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
@@ -61,7 +78,10 @@ class FiltersDataSource {
             }
             return 1
         } else if section == Section.sortBy.rawValue {
-            return categories.count
+            if parentCell.state == .expanded {
+                return parentCell.count + 1
+            }
+            return 1
         } else if section == Section.category.rawValue {
             return 1
         } else {
@@ -106,11 +126,8 @@ class FiltersDataSource {
     
     func collapseItemAt(indexPath: IndexPath, parentCell: inout ParentCell, tableView: UITableView) {
         parentCell.state = .collapsed
-        
-//        guard indexPath.row + 1 <= indexPath.row + parentCell.count else { return }
 
         // index to start deleting rows
-//        var deleteIndex = indexPath.row + 1
         var deleteIndex = 1
         
         let indexPaths = (0..<parentCell.children.count).map {
@@ -133,18 +150,17 @@ class FiltersDataSource {
     func updateCells(indexPathSelected: IndexPath, tableView: UITableView) {
         tableView.beginUpdates()
         
-        if indexPathSelected.section == Section.distance.rawValue {
-            let parentCell = items[indexPathSelected.row]
+        if indexPathSelected.section == Section.distance.rawValue || indexPathSelected.section == Section.sortBy.rawValue {
+            let parentCell = items[indexPathSelected.section]
             switch (parentCell.state) {
             case .collapsed:
                 if lastExpandedIndexPath != nil {
-                    // close other expanded
-                    
-                    
+                    // todo: close other expanded
+
                 }
-                expandItemAt(indexPath: indexPathSelected, parentCell: &items[indexPathSelected.row], tableView: tableView)
+                expandItemAt(indexPath: indexPathSelected, parentCell: &items[indexPathSelected.section], tableView: tableView)
             case .expanded:
-                collapseItemAt(indexPath: indexPathSelected, parentCell: &items[indexPathSelected.row], tableView: tableView)
+                collapseItemAt(indexPath: indexPathSelected, parentCell: &items[indexPathSelected.section], tableView: tableView)
             }
         }
         

@@ -82,10 +82,6 @@ extension FiltersViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filtersDataSource.numberOfRowsInSection(section: section)
-        
-        
-        
-//        return categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,7 +94,7 @@ extension FiltersViewController: UITableViewDataSource {
         let cellIdentifier = filtersDataSource.cellIdentifierFor(indexPath: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
-        if indexPath.section == Section.distance.rawValue {
+        if indexPath.section == Section.distance.rawValue || indexPath.section == Section.sortBy.rawValue {
             let parentCell = filtersDataSource.items[indexPath.section]
             if indexPath.row == 0 {
                 let title = parentCell.selected - 1 >= 0 ? parentCell.children[parentCell.selected - 1] : parentCell.children[0]
@@ -133,6 +129,7 @@ extension FiltersViewController: UITableViewDelegate {
             }
             filtersDataSource.items[indexPath.section].selected = indexPath.row - 1
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
