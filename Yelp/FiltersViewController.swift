@@ -101,19 +101,16 @@ extension FiltersViewController: UITableViewDataSource {
         if indexPath.section == Section.distance.rawValue {
             let parentCell = filtersDataSource.items[indexPath.section]
             if indexPath.row == 0 {
-                (cell as! DistanceHeaderTableViewCell).headerLabel.text = parentCell.children[parentCell.selected]
+                let title = parentCell.selected - 1 >= 0 ? parentCell.children[parentCell.selected - 1] : parentCell.children[0]
+                (cell as! DistanceHeaderTableViewCell).headerLabel.text = title
             } else {
-                (cell as! DistanceTableViewCell).distanceLabel.text = parentCell.children[indexPath.row]
-                
-                if parentCell.selected == indexPath.row {
+                (cell as! DistanceTableViewCell).distanceLabel.text = parentCell.children[indexPath.row - 1]
+                print("parent cell index selected: \(parentCell.selected)")
+                if parentCell.selected + 1 == indexPath.row {
                     cell.accessoryType = .checkmark
                 } else {
                     cell.accessoryType = .none
                 }
-            }
-            // reload the header row on expansion manually
-            if parentCell.state == .expanded && indexPath.row == 0 {
-                tableView.reloadRows(at: [IndexPath(row: 0, section: indexPath.section)], with: .automatic)
             }
         }
         
@@ -126,6 +123,7 @@ extension FiltersViewController: UITableViewDelegate {
         // check if a parentCell is selected
         print(indexPath.row)
         print(indexPath.section)
+        print("selected index: \(indexPath.row - 1)")
         if indexPath.row == 0 {
             filtersDataSource.updateCells(indexPathSelected: indexPath, tableView: tableView)
         } else {
@@ -133,7 +131,7 @@ extension FiltersViewController: UITableViewDelegate {
             if parentCell.actionAt != nil {
                 parentCell.actionAt!(indexPath, tableView)
             }
-            filtersDataSource.items[indexPath.section].selected = indexPath.row
+            filtersDataSource.items[indexPath.section].selected = indexPath.row - 1
         }
     }
 }

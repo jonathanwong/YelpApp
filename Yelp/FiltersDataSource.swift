@@ -37,14 +37,11 @@ class FiltersDataSource {
             (indexPath: IndexPath, tableView: UITableView) -> Void in
             // parentCell not selected
             
-//            filtersDataSource.items[indexPath.section].selected = indexPath.row
             // update the header label
             let cell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section)) as! DistanceHeaderTableViewCell
-            cell.headerLabel.text = self.items[indexPath.section].children[indexPath.row]
+            cell.headerLabel.text = self.items[indexPath.section].children[indexPath.row - 1]
             // collapse the row
             self.collapseItemAt(indexPath: indexPath, parentCell: &self.items[indexPath.section], tableView: tableView)
-            
-//            filtersDataSource.collapseItemAt(indexPath: indexPath, parentCell: &filtersDataSource.items[indexPath.section], tableView: tableView)
         }
             
         
@@ -59,8 +56,8 @@ class FiltersDataSource {
         let parentCell = items[section]
         if section == Section.distance.rawValue {
             if parentCell.state == .expanded {
-                print("numberRows: \(parentCell.count)")
-                return parentCell.count
+                print("numberRows: \(parentCell.count + 1)")
+                return parentCell.count + 1
             }
             return 1
         } else if section == Section.sortBy.rawValue {
@@ -90,7 +87,7 @@ class FiltersDataSource {
         // index to start inserting rows
         var insertIndex = indexPath.row + 1
         
-        let indexPaths = (1..<parentCell.children.count).map {
+        let indexPaths = (0..<parentCell.children.count).map {
             _ -> IndexPath in
             let ips = IndexPath(row: insertIndex, section: indexPath.section)
             insertIndex += 1
@@ -110,7 +107,7 @@ class FiltersDataSource {
 //        var deleteIndex = indexPath.row + 1
         var deleteIndex = 1
         
-        let indexPaths = (1..<parentCell.children.count).map {
+        let indexPaths = (0..<parentCell.children.count).map {
             _ -> IndexPath in
             let ips = IndexPath(row: deleteIndex, section: indexPath.section)
             deleteIndex += 1
