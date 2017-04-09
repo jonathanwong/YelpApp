@@ -15,14 +15,15 @@ enum Section: Int {
 }
 
 class FiltersDataSource {
-    var categories: [[String: String]]!
     var distance: ParentCell!
     var sortBy: ParentCell!
+    var categories: [[String: String]]!
+    var categoriesParent: ParentCell!
+    var categoriesName: [String] = [String]()
     var items = [ParentCell]()
     var lastExpandedIndexPath: IndexPath?
     
     init() {
-        categories = YelpCategories.categories()
         distance = ParentCell(state: .collapsed,
                    children: [
                     "Auto",
@@ -61,12 +62,36 @@ class FiltersDataSource {
             self.collapseItemAt(indexPath: indexPath, parentCell: &self.items[indexPath.section], tableView: tableView)
         }
         
+        categories = YelpCategories.categories()
+        for dict in categories {
+            if let name = dict["name"] {
+                categoriesName.append(name)
+            }
+        }
+        categoriesParent = ParentCell(state: .collapsed,
+                                      children: categoriesName,
+                                      selected: -1,
+                                      parentTableViewCellIdentifier: "DistanceHeaderTableViewCell",
+                                      childTableViewCellIdentifier: "SwitchTableViewCell")
+        
         items.append(distance)
         items.append(sortBy)
+        items.append(categoriesParent)
+    }
+    
+    func titleAt(section: Int) -> String {
+        if section == Section.distance.rawValue {
+            return "Distance"
+        } else if section == Section.sortBy.rawValue {
+            return "Sort By"
+        } else if section == Section.category.rawValue {
+            return "Category"
+        }
+        return ""
     }
     
     func numberOfSections() -> Int {
-        return 2
+        return 3
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
@@ -83,6 +108,9 @@ class FiltersDataSource {
             }
             return 1
         } else if section == Section.category.rawValue {
+            if parentCell.state == .expanded {
+                return parentCell.count + 1
+            }
             return 1
         } else {
             return 0
@@ -92,7 +120,7 @@ class FiltersDataSource {
     func cellIdentifierFor(indexPath: IndexPath) -> String {
         let parentCell = items[indexPath.section]
         
-        if parentCell.state == .collapsed {
+        if parentCell.state == .collapsed || parentCell.state == .expanded {
             if indexPath.row == 0 {
                 return parentCell.parentTableViewCellIdentifier
             }
@@ -150,7 +178,9 @@ class FiltersDataSource {
     func updateCells(indexPathSelected: IndexPath, tableView: UITableView) {
         tableView.beginUpdates()
         
-        if indexPathSelected.section == Section.distance.rawValue || indexPathSelected.section == Section.sortBy.rawValue {
+        if indexPathSelected.section == Section.distance.rawValue ||
+            indexPathSelected.section == Section.sortBy.rawValue ||
+            indexPathSelected.section == Section.category.rawValue {
             let parentCell = items[indexPathSelected.section]
             switch (parentCell.state) {
             case .collapsed:
@@ -166,10 +196,4 @@ class FiltersDataSource {
         
         tableView.endUpdates()
     }
-//    func updateCells(parentIndexPath: IndexPath, childIndexPath: IndexPath, parentCell: ParentCell) {
-//        switch (parentCell.state) {
-//            case .expanded
-//            collapseItemAt(indexPath: <#T##IndexPath#>, parentCell: &<#T##ParentCell#>, tableView: <#T##UITableView#>)
-//        }
-//    }
 }

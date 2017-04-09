@@ -67,8 +67,12 @@ class BusinessesViewController: UIViewController {
 extension BusinessesViewController: FiltersViewControllerDelegate {
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         let categories = filters["categories"] as? [String]
+        let sortBy = filters["sortBy"] as? NSNumber
+        let yelpSort = YelpSortMode(rawValue: (sortBy?.intValue)!)
+        
+        
         Business.searchWithTerm(term: "Restaurants",
-                                sort: nil,
+                                sort: yelpSort,
                                 categories: categories,
                                 deals: nil,
                                 completion: {

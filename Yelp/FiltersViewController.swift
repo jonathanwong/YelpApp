@@ -17,7 +17,9 @@ class FiltersViewController: UIViewController {
     @IBOutlet weak var filtersTableView: UITableView!
 
     var categories: [[String: String]]!
+    var categoryHeader = [String]()
     var switchStates: [Int: Bool]! = [Int: Bool]()
+    var sortBy = 0
     let filtersDataSource = FiltersDataSource()
     var lastSelectedIndex: IndexPath?
     var selectedHeaderIndex: IndexPath?
@@ -59,6 +61,7 @@ class FiltersViewController: UIViewController {
     @IBAction func searchButtonPressed(_ sender: Any) {
         var filters = [String: AnyObject]()
         
+        // categories
         var selectedCategories = [String]()
         for (row, isSelected) in switchStates {
             if isSelected {
@@ -69,6 +72,9 @@ class FiltersViewController: UIViewController {
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories as AnyObject
         }
+        
+        // sortBy
+        filters["sortBy"] = NSNumber(value: sortBy)
         
         filtersViewControllerDelegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: filters)
         dismiss(animated: true, completion: nil)
@@ -84,18 +90,16 @@ extension FiltersViewController: UITableViewDataSource {
         return filtersDataSource.numberOfRowsInSection(section: section)
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return filtersDataSource.titleAt(section: section)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchTableViewCell", for: indexPath) as! SwitchTableViewCell
-//        cell.switchLabel.text = categories[indexPath.row]["name"]
-//        cell.switchTableViewCellDelegate = self
-//        cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
-//        
-//        return cell
         let cellIdentifier = filtersDataSource.cellIdentifierFor(indexPath: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let parentCell = filtersDataSource.items[indexPath.section]
         
         if indexPath.section == Section.distance.rawValue || indexPath.section == Section.sortBy.rawValue {
-            let parentCell = filtersDataSource.items[indexPath.section]
             if indexPath.row == 0 {
                 let title = parentCell.selected - 1 >= 0 ? parentCell.children[parentCell.selected - 1] : parentCell.children[0]
                 (cell as! DistanceHeaderTableViewCell).headerLabel.text = title
@@ -107,6 +111,23 @@ extension FiltersViewController: UITableViewDataSource {
                 } else {
                     cell.accessoryType = .none
                 }
+            }
+        } else {
+            if indexPath.row == 0 {
+                var headerText = "All"
+                if categoryHeader.count != 0 {
+                    headerText = ""
+                    for name in categoryHeader {
+                        headerText += name
+                    }
+                    print(headerText)
+                }
+                
+                (cell as! DistanceHeaderTableViewCell).headerLabel.text = headerText
+            } else {
+                (cell as! SwitchTableViewCell).switchTableViewCellDelegate = self
+                (cell as! SwitchTableViewCell).switchLabel.text = parentCell.children[indexPath.row - 1]
+                (cell as! SwitchTableViewCell).onSwitch.isOn = switchStates[indexPath.row - 1] ?? false
             }
         }
         
@@ -128,6 +149,10 @@ extension FiltersViewController: UITableViewDelegate {
                 parentCell.actionAt!(indexPath, tableView)
             }
             filtersDataSource.items[indexPath.section].selected = indexPath.row - 1
+            
+            if indexPath.section == Section.sortBy.rawValue {
+                sortBy = indexPath.row - 1
+            }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -136,6 +161,27 @@ extension FiltersViewController: UITableViewDelegate {
 extension FiltersViewController: SwitchTableViewCellDelegate {
     func switchTableViewCell(switchTableViewCell: SwitchTableViewCell, didChangeValue value: Bool) {
         let indexPath = filtersTableView.indexPath(for: switchTableViewCell)!
-        switchStates[indexPath.row] = value
+        switchStates[indexPath.row - 1] = value
+        
+        if value {
+            categoryHeader.append(switchTableViewCell.switchLabel.text!)
+        } else {
+            let indexToRemove = categoryHeader.index(of: switchTableViewCell.switchLabel.text!)
+            categoryHeader.remove(at: indexToRemove!)
+        }
+        
+        var headerText = "All"
+        if categoryHeader.count != 0 {
+            headerText = ""
+            for name in categoryHeader {
+                headerText += ", \(name)"
+            }
+            let index = headerText.index(headerText.startIndex, offsetBy: 2)
+            headerText = headerText.substring(from: index)
+            
+            let parentIndexPath = IndexPath(row: 0, section: Section.category.rawValue)
+            let cell = filtersTableView.cellForRow(at: parentIndexPath) as!DistanceHeaderTableViewCell
+            cell.headerLabel.text = headerText
+        }
     }
 }
