@@ -95,7 +95,13 @@ class FiltersDataSource {
         }
         print("inserting \(indexPaths.count)")
         
-        tableView.insertRows(at: indexPaths, with: .fade )
+        tableView.insertRows(at: indexPaths, with: .fade)
+        
+        // update "chevron ('V')"
+        let headerCell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section))
+        if headerCell is DistanceHeaderTableViewCell {
+            (headerCell as! DistanceHeaderTableViewCell).chevron.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+        }
     }
     
     func collapseItemAt(indexPath: IndexPath, parentCell: inout ParentCell, tableView: UITableView) {
@@ -116,6 +122,12 @@ class FiltersDataSource {
         print("deleting \(indexPaths.count)")
         
         tableView.deleteRows(at: indexPaths, with: .fade)
+        
+        // update "chevron ('V')"
+        let headerCell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section))
+        if headerCell is DistanceHeaderTableViewCell {
+            (headerCell as! DistanceHeaderTableViewCell).chevron.transform = CGAffineTransform.identity
+        }
     }
     
     func updateCells(indexPathSelected: IndexPath, tableView: UITableView) {

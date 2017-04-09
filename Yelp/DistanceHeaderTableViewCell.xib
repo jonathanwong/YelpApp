@@ -25,8 +25,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lve-uL-3lA">
-                        <rect key="frame" x="300" y="11" width="12" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lve-uL-3lA">
+                        <rect key="frame" x="303" y="11" width="9" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -40,6 +40,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="chevron" destination="lve-uL-3lA" id="hLa-fZ-Ixe"/>
                 <outlet property="headerLabel" destination="KIl-7E-Sch" id="2g8-ce-hQy"/>
             </connections>
         </tableViewCell>

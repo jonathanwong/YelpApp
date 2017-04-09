@@ -11,10 +11,11 @@ import UIKit
 class DistanceHeaderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var chevron: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+//        chevron.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
