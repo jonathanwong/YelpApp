@@ -27,8 +27,8 @@ class BusinessesViewController: UIViewController {
             
             if let businesses = businesses {
                 for business in businesses {
-//                    print(business.name!)
-//                    print(business.address!)
+                    print(business.name!)
+                    print(business.address!)
                 }
                 
             }
@@ -68,13 +68,14 @@ extension BusinessesViewController: FiltersViewControllerDelegate {
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         let categories = filters["categories"] as? [String]
         let sortBy = filters["sortBy"] as? NSNumber
+        let offeringDeal = filters["offeringDeal"] as! Bool
         let yelpSort = YelpSortMode(rawValue: (sortBy?.intValue)!)
         
         
         Business.searchWithTerm(term: "Restaurants",
                                 sort: yelpSort,
                                 categories: categories,
-                                deals: nil,
+                                deals: offeringDeal,
                                 completion: {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses

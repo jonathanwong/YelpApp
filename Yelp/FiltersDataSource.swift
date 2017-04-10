@@ -12,6 +12,7 @@ enum Section: Int {
     case distance
     case sortBy
     case category
+    case deals
 }
 
 class FiltersDataSource {
@@ -19,6 +20,7 @@ class FiltersDataSource {
     var sortBy: ParentCell!
     var categories: [[String: String]]!
     var categoriesParent: ParentCell!
+    var deals: ParentCell!
     var categoriesName: [String] = [String]()
     var items = [ParentCell]()
     var lastExpandedIndexPath: IndexPath?
@@ -47,7 +49,7 @@ class FiltersDataSource {
         
         sortBy = ParentCell(state: .collapsed,
                             children: [
-                                "Best mached",
+                                "Best matched",
                                 "Distance",
                                 "Highest Rated"
             ],
@@ -74,9 +76,12 @@ class FiltersDataSource {
                                       parentTableViewCellIdentifier: "DistanceHeaderTableViewCell",
                                       childTableViewCellIdentifier: "SwitchTableViewCell")
         
+        deals = ParentCell(state: .collapsed, children: ["Offering a Deal"], selected: 0, parentTableViewCellIdentifier: "SwitchTableViewCell", childTableViewCellIdentifier: "SwitchTableViewCell")
+        
         items.append(distance)
         items.append(sortBy)
         items.append(categoriesParent)
+        items.append(deals)
     }
     
     func titleAt(section: Int) -> String {
@@ -91,42 +96,39 @@ class FiltersDataSource {
     }
     
     func numberOfSections() -> Int {
-        return 3
+        return 4
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
-        let parentCell = items[section]
-        if section == Section.distance.rawValue {
-            if parentCell.state == .expanded {
-                print("numberRows: \(parentCell.count + 1)")
-                return parentCell.count + 1
-            }
-            return 1
-        } else if section == Section.sortBy.rawValue {
+        if section == Section.distance.rawValue ||
+            section == Section.sortBy.rawValue ||
+            section == Section.category.rawValue {
+            let parentCell = items[section]
             if parentCell.state == .expanded {
                 return parentCell.count + 1
             }
             return 1
-        } else if section == Section.category.rawValue {
-            if parentCell.state == .expanded {
-                return parentCell.count + 1
-            }
+        } else if section == Section.deals.rawValue {
             return 1
-        } else {
+        }
+        else {
             return 0
         }
     }
     
     func cellIdentifierFor(indexPath: IndexPath) -> String {
-        let parentCell = items[indexPath.section]
-        
-        if parentCell.state == .collapsed || parentCell.state == .expanded {
-            if indexPath.row == 0 {
-                return parentCell.parentTableViewCellIdentifier
+        if indexPath.section != Section.deals.rawValue {
+            let parentCell = items[indexPath.section]
+            
+            if parentCell.state == .collapsed || parentCell.state == .expanded {
+                if indexPath.row == 0 {
+                    return parentCell.parentTableViewCellIdentifier
+                }
             }
+            
+            return parentCell.childTableViewCellIdentifier
         }
-        
-        return parentCell.childTableViewCellIdentifier
+        return "SwitchTableViewCell"
     }
     
     func expandItemAt(indexPath: IndexPath, parentCell: inout ParentCell, tableView: UITableView) {

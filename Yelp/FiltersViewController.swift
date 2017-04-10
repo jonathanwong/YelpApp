@@ -19,6 +19,7 @@ class FiltersViewController: UIViewController {
     var categories: [[String: String]]!
     var categoryHeader = [String]()
     var switchStates: [Int: Bool]! = [Int: Bool]()
+    var offeringDeal: Bool = false
     var sortBy = 0
     let filtersDataSource = FiltersDataSource()
     var lastSelectedIndex: IndexPath?
@@ -76,6 +77,9 @@ class FiltersViewController: UIViewController {
         // sortBy
         filters["sortBy"] = NSNumber(value: sortBy)
         
+        // deal
+        filters["offeringDeal"] = NSNumber(value: offeringDeal)
+        
         filtersViewControllerDelegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: filters)
         dismiss(animated: true, completion: nil)
     }
@@ -112,7 +116,7 @@ extension FiltersViewController: UITableViewDataSource {
                     cell.accessoryType = .none
                 }
             }
-        } else {
+        } else if indexPath.section == Section.category.rawValue {
             if indexPath.row == 0 {
                 var headerText = "All"
                 if categoryHeader.count != 0 {
@@ -120,7 +124,6 @@ extension FiltersViewController: UITableViewDataSource {
                     for name in categoryHeader {
                         headerText += name
                     }
-                    print(headerText)
                 }
                 
                 (cell as! DistanceHeaderTableViewCell).headerLabel.text = headerText
@@ -129,6 +132,11 @@ extension FiltersViewController: UITableViewDataSource {
                 (cell as! SwitchTableViewCell).switchLabel.text = parentCell.children[indexPath.row - 1]
                 (cell as! SwitchTableViewCell).onSwitch.isOn = switchStates[indexPath.row - 1] ?? false
             }
+        } else if indexPath.section == Section.deals.rawValue {
+            (cell as! SwitchTableViewCell).switchTableViewCellDelegate = self
+            (cell as! SwitchTableViewCell).switchLabel.text = "Offering a Deal"
+            (cell as! SwitchTableViewCell).onSwitch.isOn = offeringDeal
+            
         }
         
         return cell
@@ -161,27 +169,33 @@ extension FiltersViewController: UITableViewDelegate {
 extension FiltersViewController: SwitchTableViewCellDelegate {
     func switchTableViewCell(switchTableViewCell: SwitchTableViewCell, didChangeValue value: Bool) {
         let indexPath = filtersTableView.indexPath(for: switchTableViewCell)!
-        switchStates[indexPath.row - 1] = value
-        
-        if value {
-            categoryHeader.append(switchTableViewCell.switchLabel.text!)
-        } else {
-            let indexToRemove = categoryHeader.index(of: switchTableViewCell.switchLabel.text!)
-            categoryHeader.remove(at: indexToRemove!)
-        }
-        
-        var headerText = "All"
-        if categoryHeader.count != 0 {
-            headerText = ""
-            for name in categoryHeader {
-                headerText += ", \(name)"
-            }
-            let index = headerText.index(headerText.startIndex, offsetBy: 2)
-            headerText = headerText.substring(from: index)
+        if indexPath.section == Section.category.rawValue {
+            switchStates[indexPath.row - 1] = value
             
-            let parentIndexPath = IndexPath(row: 0, section: Section.category.rawValue)
-            let cell = filtersTableView.cellForRow(at: parentIndexPath) as!DistanceHeaderTableViewCell
-            cell.headerLabel.text = headerText
+            if value {
+                categoryHeader.append(switchTableViewCell.switchLabel.text!)
+            } else {
+                let indexToRemove = categoryHeader.index(of: switchTableViewCell.switchLabel.text!)
+                categoryHeader.remove(at: indexToRemove!)
+            }
+            
+            var headerText = "All"
+            if categoryHeader.count != 0 {
+                headerText = ""
+                for name in categoryHeader {
+                    headerText += ", \(name)"
+                }
+                let index = headerText.index(headerText.startIndex, offsetBy: 2)
+                headerText = headerText.substring(from: index)
+                
+                let parentIndexPath = IndexPath(row: 0, section: Section.category.rawValue)
+                let cell = filtersTableView.cellForRow(at: parentIndexPath) as!DistanceHeaderTableViewCell
+                cell.headerLabel.text = headerText
+            }
+  
+        } else if indexPath.section == Section.deals.rawValue {
+            offeringDeal = value
         }
+        
     }
 }
